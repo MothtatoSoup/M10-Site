@@ -24,6 +24,18 @@ try {
             // Genrate the word cloud
             wordCloud(sourceText);
       }
+      // Read the contents of the selected file
+      let fr = new FileReader();
+      fr.readAsText(userFile);
+
+      // Once the file has finished lading, display in the pages
+      let sourceDoc = document.getElementById("wc_document");
+      fr.onload = function(){
+            sourceDoc.innerHTML = fr.result;
+
+            // Store the text of the document; removing the html tag
+            let sourceText = sourceDoc.textContent;
+      }
 }
 
 // Alert the user to select a text file
@@ -100,18 +112,6 @@ function wordCloud(sourceText) {
       console.log(sourceText)
 }
 
-// Read the contents of the selected file
-let fr = new FileReader();
-fr.readAsText(userFile);
-
-// Once the file has finished lading, display in the pages
-let sourceDoc = document.getElementById("wc_document");
-fr.onload = function(){
-      sourceDoc.innerHTML = fr.result;
-}
-
-// Store the text of the document; removing the html tag
-let sourceText = sourceDoc.textContent;
 
 
 
