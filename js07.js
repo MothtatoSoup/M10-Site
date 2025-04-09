@@ -10,6 +10,20 @@
       Filename:       js07.js
  */
 
+document.getElementById("getFile").onchange = function() {
+      // Retrievee info about the selected file
+      let userFile = this.files[0];
+};
+
+// Read the contents of the selected file
+let fr = new FileReader();
+fr.readAsText(userFile);
+
+// Once the file has finished lading, display in the pages
+let sourceDoc = document.getElementById("wc_document");
+fr.onload = function(){
+      sourceDoc.innerHTML = fr.result;
+}
 
 
 
