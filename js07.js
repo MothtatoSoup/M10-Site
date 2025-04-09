@@ -15,6 +15,30 @@ document.getElementById("getFile").onchange = function() {
       let userFile = this.files[0];
 };
 
+// Veryify that a text file is selected
+try {
+      let isText = userFile.typ.startsWith("text");
+      if (!isText){
+            throw userFile.name + "is not a text file"
+
+            // Genrate the word cloud
+            wordCloud(sourceText);
+      }
+}
+
+// Alert the user to select a text file
+catch(err){
+      window.alert(err)
+}
+
+function wordCloud(sourceText) {
+      // Convert the source text to lowercase and remove leading and trailing whitespace
+      sourceText = sourceText.toLowerCase();
+      sourceText = sourceText.trim();
+
+      console.log(sourceText)
+}
+
 // Read the contents of the selected file
 let fr = new FileReader();
 fr.readAsText(userFile);
@@ -24,6 +48,10 @@ let sourceDoc = document.getElementById("wc_document");
 fr.onload = function(){
       sourceDoc.innerHTML = fr.result;
 }
+
+// Store the text of the document; removing the html tag
+let sourceText = sourceDoc.textContent;
+
 
 
 
