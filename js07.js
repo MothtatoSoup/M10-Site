@@ -36,6 +36,67 @@ function wordCloud(sourceText) {
       sourceText = sourceText.toLowerCase();
       sourceText = sourceText.trim();
 
+      // Leave only alphabet chars and whitespace in the text
+      let alphaRegx = /[^a-zA-Z\s]/g;
+      sourceText = sourceText.replace(alphaRegx, "");
+
+      // remove stop words from the text
+      for (let i = 0; i < stopWords.length; i++) {
+            let stopRegx = new RegExp("\\b"+stopWords[i]+"\\b", "g");
+            sourceText = sourceText.replace(stopRegx, "");
+      }
+
+      //place remaining words into an array
+      let words = sourceText.split(/\s+/g)
+
+      // Sort the words in alphabetical order
+      words.sort();
+
+      // CReate a 2D array in which each item is array
+      // containing a word and its duplivite count
+      let unique = [ [words[0], 1] ];
+
+      // Keep an index of the unique words
+      let uniqueIndex = 0;
+
+      for (let i = 1; i < words.length; i++){
+            if (words[i] === words[i-1]) {
+                  // Increase the duplicate count by 1
+                  unique[uniqueIndex] [1]++;
+            }else {
+                  // Added a new word uniqe array
+                  unqiueIndex++;
+                  unique[uniqueIndex] = [words[i], 1]
+            }
+
+            //Sort by desending order of dup count
+            unique.sort(byDuplicate);
+            function byDuplicate(a, b) {
+                  return b[1] -a[1];
+            }
+
+            // Keep the top 100 words
+            unique = unique.slice(0,100)
+
+            // Find the duplicates of the most-repeated word
+            let maxCount = unique[0][1]
+
+            //sort the word list in alphabetical order
+            unique.sort();
+
+            // Ref the word cloud box
+            let cloudBox = document.getElementById("wc_cloud");
+            cloudBox.innerHTML = "";
+
+            // Size each word based on its usage
+            for (let i = 0; i < unique.length; i++) {
+                  let word = document.createElement("span");
+                  word.textContent = unique[i][0]
+                  word.style.fontSize = unique[i][1]/maxCount + "em";
+                  cloudBox.appendChild(word);
+            }
+      }
+
       console.log(sourceText)
 }
 
